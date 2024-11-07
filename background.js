@@ -1,25 +1,25 @@
-chrome.runtime.onInstalled.addListener(() => {
+browser.runtime.onInstalled.addListener(() => {
     // Extension installed or updated logic here
     console.log('Extension installed or updated.');
 });
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     // skip urls like "chrome://" to avoid extension error
-    if (tab.url?.startsWith('chrome://')) return undefined;
+    if (tab.url?.startsWith('about:')) return undefined;
 
     if (changeInfo.status === 'complete') {
-        chrome.scripting.executeScript({
+      browser.scripting.executeScript({
             target: { tabId: tabId },
-            function: checkAndLogin,
+            func: checkAndLogin,
             args: [tabId]
         });
     }
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'closeTab') {
-        chrome.tabs.remove(message.tabId);
+      browser.tabs.remove(message.tabId);
     }
 });
 
@@ -43,7 +43,7 @@ async function checkAndLogin(tabId) {
                 // Click the 'cli_login_button'
                 loginButtonAfterRedirection.click();
                 console.log('Clicked on cli_login_button new page');
-                chrome.runtime.sendMessage({ action: 'closeTab', tabId: tabId });
+                browser.runtime.sendMessage({ action: 'closeTab', tabId: tabId });
             }
         }
         // Check if the current tab URL contains 'awsapps.com' and 'start'
@@ -63,7 +63,7 @@ async function checkAndLogin(tabId) {
 
                 await waitForElement(() => document.querySelector('.awsui-context-alert')?.textContent.toLocaleLowerCase().startsWith('request approved'));
 
-                chrome.runtime.sendMessage({ action: 'closeTab', tabId: tabId });
+                browser.runtime.sendMessage({ action: 'closeTab', tabId: tabId });
             }
         }
 

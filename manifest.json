@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AWS SSO Auto Login Extension",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Automatically login to AWS SSO websites and close tab",
   "permissions": [
     "activeTab",
@@ -44,7 +44,7 @@
     "https://*.awsapps.com/start/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {
@@ -94,5 +94,11 @@
       "48": "images/aws.webp",
       "128": "images/aws.webp"
     }
+  },
+  "browser_specific_settings": {
+  "gecko": {
+    "id": "aws-sso-auto-login@andrzej-woof",
+    "strict_min_version": "58.0"
   }
+}
 }
