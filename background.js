@@ -73,7 +73,7 @@ async function checkAndLogin(tabId) {
 
 
     function isSSOPage(url) {
-        return /^https:\/\/device\.sso\.[^.]*\.amazonaws\.com/.test(url);
+        return /^https:\/\/device\.sso\.[^.]*\.amazonaws\.com/.test(url) || /^https:\/\/[^.]+\.awsapps\.com\/start\/#\/device/.test(url);
     }
 
     function isUserConsentPage(url) {
